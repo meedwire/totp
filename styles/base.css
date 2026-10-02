@@ -1,0 +1,43 @@
+/* Paleta espelhada de src/theme.ts do app RN (refactor monocromatico):
+   background #050505 · surface #101010 · surfaceAlt #151515 · surfaceMuted #0b0b0b
+   textPrimary #f5f5f5 · textSecondary #d4d4d4 · textMuted #9ca3af · textFaint #5f5f5f
+   accent #e5e5e5 (cinza claro, NAO azul) · accentText #090909 · danger #ef4444 */
+
+@font-face {
+  font-family: "Roboto";
+  src: url("fonts/Roboto-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* App.tsx: container { flex:1, paddingHorizontal:10, paddingTop:10, paddingBottom:12 } */
+#totp-app {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  padding: 10px 10px 12px 10px;
+  box-sizing: border-box;
+  background-color: #050505;
+  color: #f5f5f5;
+  font-family: "Roboto", sans-serif;
+}
+
+/* App.tsx: shell { flex:1, overflow:hidden, borderRadius:24, border 1px } */
+#totp-shell {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 24px;
+  background-color: #050505;
+  border-width: 1px;
+  border-style: solid;
+  /* HEX OPACO ja composto. O alfa em borda FUNCIONA, mas o motor pinta o anel
+     sobre o fundo do PAI, nunca sobre o fundo do proprio elemento (nao honra
+     background-clip: border-box) — entao rgba(255,255,255,0.06) sairia composto
+     sobre #050505 de qualquer jeito. Aqui o pai E #050505, e o valor confere. */
+  border-color: #141414;
+}

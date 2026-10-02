@@ -1,0 +1,331 @@
+/* Cartao e cabecalho espelhados de src/components/TOTPCode.tsx e
+   src/screens/AccountList.tsx do RN apos o refactor monocromatico. */
+
+/* ---- cabecalho: Prefs | Authenticator | Add ---- */
+
+/* REGUA DE 1px COMO ELEMENTO, NAO COMO `border-bottom`.
+   Borda de um lado so (qualquer longhand border-*-width/style/color, ou larguras/
+   cores/estilos diferentes por lado) reprova o caminho de caixa uniforme e vira o
+   comando BORDER_BOX (kind 8). Nem o host macOS nem o bridge Android tem `case 8`:
+   o comando cai no `default:` e o ELEMENTO INTEIRO some — background junto, nao so a
+   borda. Medido em 2026-08-26; acontece igual com cor opaca, entao nao tem nada a ver
+   com alfa. Background com alfa, esse, funciona normalmente. */
+.rule {
+  display: block;
+  width: 100%;
+  height: 1px;
+  flex-shrink: 0;
+  background-color: #191919;
+}
+
+#totp-header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 58px;
+  padding: 16px 18px 12px 18px;
+  box-sizing: border-box;
+}
+
+#totp-title {
+  display: block;
+  color: #f5f5f5;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  text-align: center;
+}
+
+.toolbar-button {
+  display: block;
+  width: 54px;
+  height: 30px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #282828; /* rgba(255,255,255,0.08) sobre #151515 */
+  color: #d4d4d4;
+  font-size: 11px;
+  line-height: 28px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* CLASSE SIMPLES, NAO COMPOSTA: `.toolbar-button.primary` nunca casa neste motor —
+   selParseFields (ts-native-ui-css/src/selectors/runtime.ts) CONCATENA os nomes e
+   procura a classe "toolbar-buttonprimary", que nao existe. Falha em silencio.
+   No RN monocromatico o botao cheio e claro com texto escuro (accent/accentText). */
+.toolbar-button-primary {
+  background-color: #e5e5e5;
+  border-color: #e5e5e5;
+  color: #090909;
+}
+
+/* ---- busca ---- */
+
+#search-placeholder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 38px;
+  margin: 12px 18px 0 18px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #101010;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #232323; /* rgba(255,255,255,0.08) sobre #101010 */
+}
+
+#search-label {
+  display: block;
+  flex: 1;
+  margin-left: 12px;
+  color: #5f5f5f;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* ---- chips de grupo ---- */
+
+#group-tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 36px;
+  margin: 8px 18px 0 18px;
+  box-sizing: border-box;
+  gap: 6px;
+}
+
+.group-tab {
+  display: block;
+  height: 28px;
+  padding: 0 12px;
+  box-sizing: border-box;
+  border-radius: 999px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #282828;
+  color: #9ca3af;
+  font-size: 11px;
+  line-height: 26px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.group-tab-active {
+  background-color: #e5e5e5;
+  border-color: #e5e5e5;
+  color: #090909;
+}
+
+/* ---- lista ---- */
+
+/* O `gap: 10px` daqui so passou a valer depois do fix no motor
+   (packages/ts-native-ui-css/src/defaults/get-defaults-values.ts): o shorthand `gap`
+   era descartado em toda tag SEM entrada em tag-defaults, e esta lista e uma <section>.
+   Gate: fixtures/checks/ts-native-ui/ts_native_ui_scene_gap_shorthand_tag_defaults.tsx.
+
+   ATENCAO NA FATIA DA LISTA DINAMICA: este container e `display: flex` COM
+   `overflow-y: auto`, e container de scroll com `display: flex` NAO rola neste motor
+   (o estado anda, a pintura nao — ver o comentario de .screen-body em forms.css).
+   Hoje nao doi porque sao 3 cartoes e nada transborda. Quando a lista virar dinamica,
+   virar `display: block` — o que exige trocar o `gap` por `margin-bottom` nos cartoes,
+   ja que bloco nao tem gap. Medir antes de mexer. */
+#account-list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 10px 18px 22px 18px;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+/* ALTURA EXPLICITA obrigatoria: sem ela o cartao NAO abraca o conteudo — ele estica
+   e ocupa a lista inteira. 56px = paddingVertical 10*2 + o bloco de codigo do RN
+   (20 do codigo + 4 de margem + 12 da linha do timer). */
+.account-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #212121; /* rgba(255,255,255,0.05) sobre #151515 */
+}
+
+.account-copy-area {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: transparent;
+  color: #f5f5f5;
+}
+
+/* Avatar do RN: 30x30, raio 8, inicial UNICA, cinza escolhido por charCode. */
+.account-avatar {
+  display: block;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  color: #f5f5f5;
+  font-size: 13px;
+  line-height: 30px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.tone-1 { background-color: #232323; }
+.tone-2 { background-color: #2e2e2e; }
+.tone-3 { background-color: #3a3a3a; }
+.tone-4 { background-color: #494949; }
+.tone-5 { background-color: #5c5c5c; }
+
+.account-meta {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  margin-left: 9px;
+  margin-right: 6px;
+}
+
+.account-issuer {
+  display: block;
+  color: #f5f5f5;
+  font-size: 13px;
+  line-height: 17px;
+  font-weight: 600;
+}
+
+.account-name {
+  display: block;
+  margin-top: 2px;
+  color: #9ca3af;
+  font-size: 10px;
+  line-height: 14px;
+}
+
+.account-code-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 84px;
+  margin-right: 6px;
+}
+
+.account-code {
+  display: block;
+  width: 84px;
+  color: #e5e5e5;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.account-code-urgent {
+  color: #ef4444;
+}
+
+.timer-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  width: 84px;
+  height: 12px;
+  margin-top: 4px;
+  gap: 5px;
+}
+
+.timer-track {
+  display: block;
+  width: 40px;
+  height: 3px;
+  border-radius: 999px;
+  background-color: #0b0b0b;
+  overflow: hidden;
+}
+
+.timer-fill {
+  display: block;
+  width: 40px;
+  height: 3px;
+  border-radius: 999px;
+  background-color: #e5e5e5;
+}
+
+.timer-fill-urgent {
+  background-color: #ef4444;
+}
+
+/* Sem prop `style` inline no ts-native-ui, a barra continua do RN
+   (width: progress*100%) vira degraus de 2px sobre a trilha de 40px. */
+.timer-fill-w0 { width: 0px; }
+.timer-fill-w2 { width: 2px; }
+.timer-fill-w4 { width: 4px; }
+.timer-fill-w6 { width: 6px; }
+.timer-fill-w8 { width: 8px; }
+.timer-fill-w10 { width: 10px; }
+.timer-fill-w12 { width: 12px; }
+.timer-fill-w14 { width: 14px; }
+.timer-fill-w16 { width: 16px; }
+.timer-fill-w18 { width: 18px; }
+.timer-fill-w20 { width: 20px; }
+.timer-fill-w22 { width: 22px; }
+.timer-fill-w24 { width: 24px; }
+.timer-fill-w26 { width: 26px; }
+.timer-fill-w28 { width: 28px; }
+.timer-fill-w30 { width: 30px; }
+.timer-fill-w32 { width: 32px; }
+.timer-fill-w34 { width: 34px; }
+.timer-fill-w36 { width: 36px; }
+.timer-fill-w38 { width: 38px; }
+.timer-fill-w40 { width: 40px; }
+
+.timer-value {
+  display: block;
+  color: #9ca3af;
+  font-size: 9px;
+  line-height: 12px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.timer-value-urgent {
+  color: #ef4444;
+}
+
+/* Botao "..." do RN, no lugar do antigo link "Edit". */
+.card-menu {
+  display: block;
+  width: 22px;
+  height: 22px;
+  border-radius: 8px;
+  background-color: #1c1c1c; /* rgba(255,255,255,0.03) sobre #151515 */
+  color: #d4d4d4;
+  font-size: 10px;
+  line-height: 20px;
+  text-align: center;
+  font-weight: 700;
+}

@@ -1,5 +1,26 @@
 {
-  "extends": "@react-native/typescript-config",
-  "include": ["**/*.ts", "**/*.tsx"],
-  "exclude": ["**/node_modules", "**/Pods"]
+  "extends": "../native-ts-compiler/tsconfig.json",
+  "compilerOptions": {
+    "jsxImportSource": "ts-native-ui",
+    "baseUrl": ".",
+    "paths": {
+      "ts-native-ui": ["../native-ts-compiler/packages/ts-native-ui/src/index.ts"],
+      "ts-native-ui/jsx-runtime": ["../native-ts-compiler/packages/ts-native-ui/src/jsx-runtime.ts"],
+      "ts-native-ui-test": ["../native-ts-compiler/packages/ts-native-ui-test/src/index.ts"],
+      "ts-native-ui-test/scene-api": ["../native-ts-compiler/packages/ts-native-ui-test/src/scene-api.ts"],
+      "ts-native-ui-web": ["../native-ts-compiler/packages/ts-native-ui-web/src/index.ts"],
+      "ts-native-ui-css": ["../native-ts-compiler/packages/ts-native-ui-css/src/index.ts"],
+      "ts-native-ui-display-list": ["../native-ts-compiler/packages/ts-native-ui-display-list/src/index.ts"]
+    }
+  },
+  "include": [
+    "./ui.tsx",
+    "./ui-router.tsx",
+    "./src/**/*",
+    "./app/**/*",
+    "./fixtures/**/*",
+    "./app.css",
+    "./types.d.ts",
+    "./ui-env.d.ts"
+  ]
 }

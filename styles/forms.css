@@ -1,0 +1,458 @@
+/* Chrome das telas secundarias (Add / Edit / Settings). Os tres arquivos do RN
+   declaram exatamente os mesmos estilos de cabecalho, campo e botao — aqui eles
+   ficam num lugar so. Toda cor de borda e HEX OPACO ja composto sobre o fundo do
+   PROPRIO elemento: o alfa funciona, mas o motor compoe o anel contra o fundo do PAI,
+   o que num cartao claro sobre pagina escura deixa a borda mais escura que o cartao e
+   ela some. O valor entre parenteses e o rgba original do RN. */
+
+/* ---- cabecalho: Back | titulo | espacador ---- */
+
+#top-strip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 14px 16px;
+  box-sizing: border-box;
+}
+
+#route-title {
+  display: block;
+  color: #f5f5f5;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* headerSpacer do RN: mesma largura do botao, para o titulo cair no centro. */
+#route-spacer {
+  display: block;
+  width: 58px;
+  height: 34px;
+}
+
+.back-button {
+  display: block;
+  width: 58px;
+  height: 34px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #282828;
+  color: #d4d4d4;
+  font-size: 12px;
+  line-height: 32px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ---- corpo ---- */
+
+/* `display: block`, NAO `flex`. Container de scroll com `display: flex` NAO rola
+   neste motor: o estado anda (dispatchInputScroll responde handled=1 e o scrollY vai
+   ate o maxScrollY), mas os comandos de desenho saem IDENTICOS — o offset nunca chega
+   aos filhos, e o que esta embaixo nunca e pintado nem fica clicavel. Medido em
+   2026-08-26: com flex, o botao "Quit application" do Settings nao existia na lista de
+   comandos.
+   `flex: 1` FICA — e dele que vem a caixa fechada de que o overflow precisa (511px),
+   e ele nao estraga nada aqui porque este container espaca por margin, nao por `gap`
+   (`flex: 1` zera `gap`, ver o comentario de #account-list em components.css).
+   `overflow-y` sozinho basta; o shorthand nao muda nada. */
+.screen-body {
+  display: block;
+  flex: 1;
+  padding: 16px 16px 26px 16px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.section-title {
+  display: block;
+  flex-shrink: 0;
+  width: 100%;
+  margin: 0 0 8px 0;
+  color: #5f5f5f;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.section-title-spaced {
+  margin-top: 28px;
+}
+
+/* ---- campos ---- */
+
+.field-label {
+  display: block;
+  flex-shrink: 0;
+  margin: 12px 0 6px 0;
+  color: #d4d4d4;
+  font-size: 12px;
+  line-height: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.field-input {
+  flex-shrink: 0;
+  display: block;
+  height: 40px;
+  padding: 0 14px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #101010;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #232323;
+  color: #f5f5f5;
+  font-size: 14px;
+  line-height: 38px;
+}
+
+.field-input-multiline {
+  height: 84px;
+  line-height: 20px;
+  padding: 10px 14px;
+}
+
+.field-hint {
+  display: block;
+  flex-shrink: 0;
+  margin-top: 8px;
+  color: #5f5f5f;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.field-label-first {
+  margin-top: 0;
+}
+
+.field-hint-strong {
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 16px;
+}
+
+/* ---- botoes ---- */
+
+.primary-button {
+  flex-shrink: 0;
+  display: block;
+  height: 44px;
+  margin-top: 24px;
+  border-radius: 14px;
+  background-color: #e5e5e5;
+  color: #090909;
+  font-size: 14px;
+  line-height: 44px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.secondary-button {
+  flex-shrink: 0;
+  display: block;
+  height: 44px;
+  margin-top: 18px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #363636; /* borderStrong: rgba(255,255,255,0.14) sobre #151515 */
+  color: #f5f5f5;
+  font-size: 14px;
+  line-height: 42px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.danger-button {
+  flex-shrink: 0;
+  display: block;
+  height: 44px;
+  margin-top: 12px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #260e0e; /* dangerSoft: rgba(239,68,68,0.14) sobre #050505 */
+  border-width: 1px;
+  border-style: solid;
+  border-color: #521a1a; /* rgba(239,68,68,0.22) sobre o dangerSoft */
+  color: #fecaca;
+  font-size: 14px;
+  line-height: 42px;
+  text-align: center;
+  font-weight: 700;
+}
+
+/* ---- segmentos (digitos, periodo) e abas de modo ---- */
+
+.segment-row {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  height: 38px;
+  gap: 8px;
+}
+
+.segment {
+  display: block;
+  height: 38px;
+  padding: 0 20px;
+  box-sizing: border-box;
+  border-radius: 10px;
+  background-color: #101010;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #232323;
+  color: #9ca3af;
+  font-size: 13px;
+  line-height: 36px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.segment-active {
+  background-color: #e5e5e5;
+  border-color: #e5e5e5;
+  color: #090909;
+}
+
+#mode-switcher {
+  display: flex;
+  flex-direction: row;
+  flex-shrink: 0;
+  height: 46px;
+  margin-bottom: 18px;
+  padding: 4px;
+  box-sizing: border-box;
+  gap: 4px;
+  border-radius: 14px;
+  background-color: #101010;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #232323;
+}
+
+.mode-tab {
+  display: block;
+  flex: 1;
+  height: 38px;
+  border-radius: 10px;
+  background-color: #101010;
+  color: #9ca3af;
+  font-size: 13px;
+  line-height: 38px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.mode-tab-active {
+  background-color: #e5e5e5;
+  color: #090909;
+}
+
+/* ---- cartoes informativos ---- */
+
+/* 16*2 + titulo 18 + 6 + texto 2 linhas de 18 = 92 */
+.info-card {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  height: 92px;
+  margin-top: 16px;
+  padding: 16px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #282828;
+}
+
+.info-card-title {
+  display: block;
+  margin: 0 0 6px 0;
+  color: #f5f5f5;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+}
+
+.info-card-text {
+  display: block;
+  margin: 0;
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* DUAS REGRAS INEGOCIAVEIS NESTE MOTOR, as duas medidas neste app:
+   1. ALTURA EXPLICITA em todo container com padding/borda — sem ela a caixa colapsa
+      e o conteudo vaza por cima do vizinho.
+   2. `flex-shrink: 0` em todo filho de .screen-body — o corpo e uma coluna que
+      transborda (o conteudo e mais alto que a janela) e, com o flex-shrink padrao,
+      TODOS os filhos encolhem proporcionalmente: a altura explicita e comprimida e
+      o conteudo sai cortado. Foi o que cortava o botao dentro da secao expandida.
+   A altura de cada caixa e a soma do conteudo + padding, anotada na regra. */
+
+/* 14*2 + label 18 + (4 + hint 16) = 66 */
+.menu-item {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: row;
+  align-items: center;
+  height: 66px;
+  margin-bottom: 8px;
+  padding: 14px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #101010;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #232323;
+}
+
+/* 18 do rotulo + 4 + 16 da dica */
+.menu-content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 38px;
+}
+
+.menu-label {
+  display: block;
+  color: #f5f5f5;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+}
+
+.menu-hint {
+  display: block;
+  margin-top: 4px;
+  color: #9ca3af;
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.menu-chevron {
+  display: block;
+  color: #9ca3af;
+  font-size: 11px;
+  line-height: 16px;
+  font-weight: 700;
+}
+
+/* 14*2 + label 15 + 8 + input 40 + (24 + botao 44) = 159 */
+.expanded-section {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  height: 159px;
+  margin-bottom: 10px;
+  padding: 14px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #282828;
+}
+
+/* 18*2 + nome 20 + (4 + versao 16) + (12 + desc 2 linhas de 18) = 124 */
+.about-card {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  height: 124px;
+  padding: 18px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #101010;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #232323;
+}
+
+.about-name {
+  display: block;
+  color: #f5f5f5;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 700;
+}
+
+.about-version {
+  display: block;
+  margin-top: 4px;
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.about-desc {
+  display: block;
+  margin-top: 12px;
+  color: #9ca3af;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+/* ---- preview do codigo (Add / manual) ---- */
+
+/* 18*2 + rotulo 14 + 8 + codigo 34 = 92 */
+#add-preview {
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: column;
+  align-items: center;
+  height: 92px;
+  margin-top: 20px;
+  padding: 18px;
+  box-sizing: border-box;
+  border-radius: 14px;
+  background-color: #151515;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #282828;
+}
+
+#add-preview-label {
+  display: block;
+  margin: 0 0 8px 0;
+  color: #9ca3af;
+  font-size: 11px;
+  line-height: 14px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+#add-preview-code {
+  display: block;
+  color: #e5e5e5;
+  font-size: 28px;
+  line-height: 34px;
+  font-weight: 700;
+  letter-spacing: 4px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Blocos que aparecem e somem por CLASSE (ver src/state/screens-state.ts). */
+.screen-block {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.screen-block-hidden {
+  display: none;
+}
